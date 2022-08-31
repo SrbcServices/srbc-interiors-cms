@@ -13,68 +13,26 @@
 
                 @foreach ($portfolio as $port)
 
-                    <div class="port-one">
+                    @foreach ($port as $item)
 
-                        @foreach ($port as $index => $item)
-                        
-                            <?php
-                            $in = $index;
-                            ?>
+                        <div class="port-one">
 
-                            <div class="port-ind">
-                                <img src="{{ asset('/uploads/gallery_images/' . $port->gallery_image . '') }}" alt=""
-                                    srcset="">
+                            @foreach ($item as $img)
 
-                            </div>
+                                <div class="port-ind">
+                                    <img src="{{ asset('/uploads/gallery_images/' . $img . '') }}"
+                                        alt="" srcset="">
 
-                            <div class="port-ind">
-                                <img src="{{ asset('/uploads/gallery_images/' . $port->gallery_image . '') }}"
-                                    alt="" srcset="">
+                                </div>
 
-                            </div>
+                            @endforeach
 
-                        @endforeach
 
-                    </div>
+                        </div>
+                    @endforeach
 
                 @endforeach
 
-                {{-- <div class="port-one">
-                    <div class="port-ind">
-                        <img src="{{ asset('/assets/frontent/images/services/service4.png') }}" alt=""
-                            srcset="">
-
-                    </div>
-                    <div class="port-ind">
-                        <img src="{{ asset('/assets/frontent/images/services/service4.png') }}" alt=""
-                            srcset="">
-
-                    </div>
-                </div>
-                <div class="port-one">
-                    <div class="port-ind">
-                        <img src="{{ asset('/assets/frontent/images/services/service1.png') }}" alt=""
-                            srcset="">
-
-                    </div>
-                    <div class="port-ind">
-                        <img src="{{ asset('/assets/frontent/images/services/service4.png') }}" alt=""
-                            srcset="">
-
-                    </div>
-                </div>
-                <div class="port-one">
-                    <div class="port-ind">
-                        <img src="{{ asset('/assets/frontent/images/services/service1.png') }}" alt=""
-                            srcset="">
-
-                    </div>
-                    <div class="port-ind">
-                        <img src="{{ asset('/assets/frontent/images/services/service4.png') }}" alt=""
-                            srcset="">
-
-                    </div>
-                </div> --}}
 
             </div>
 

@@ -986,15 +986,20 @@ footer .visit {
     justify-content: end;
 }
 .port-one .port-ind {
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 350px;
 }
 .port-one .port-ind img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
+@media only screen and (max-width: 950px) {
+    .port-one .port-ind {
+        max-width: 300px;
+        height: 300px;
+    }
+}
 @media only screen and (max-width: 640px) {
     .port-one .port-ind {
         min-width: 100%;

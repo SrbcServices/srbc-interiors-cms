@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\GalleryController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +17,7 @@ use App\Http\Controllers\GalleryController;
 Route::get('/', function () {
     return view('frontend.index');
 });
+
 Route::get('/about', function () {
     return view('frontend.about');
 });
@@ -31,32 +31,37 @@ Route::get('/portfolio', function () {
 Route::get('/contact', function () {
     return view('frontend.contact');
 });
+Route::get('/portfolio', [GalleryController::class, 'loop']);
 
-Route::get('/admin/dashboard', function() {
-    return view('admin.dashboard');
-});
-
-Route::get('/admin/add-blog', function() {
-    return view('admin.add-blog');
-});
+Route::get('/logout', [GalleryController::class, 'logout'])->name('logout');
 
 
-// Route::get('/admin/gallery', function() {
-//     return view('admin.gallery');
-// });
 
 Route::get('/blogs', [BlogsController::class, 'loop']);
 Route::get('/blogs/{Heading}', [BlogsController::class, 'individual']);
 
+Route::get('/login',[GalleryController::class,'login'])->name('login')->middleware('guest');
 
-Route::post('/admin/add_blog', [BlogsController::class,'store']);
-Route::get('admin/blogs', [BlogsController::class,'index']);
-Route::get('admin/edit-blog/{id}', [BlogsController::class, 'edit']);
-Route::post('/admin/update-blog', [BlogsController::class,'update']);
-Route::get('/admin/blogdelete/{id}',[BlogsController::class,'delete']);
-Route::post('uploadImage', [BlogsController::class, 'upload'])->name('upload');
-Route::get('/admin/gallery', [GalleryController::class, 'index']);
-Route::post('/admin/gallery', [GalleryController::class,'store']);
-Route::get('/admin/gallerydelete/{id}',[GalleryController::class,'delete']);
-Route::get('/portfolio',[GalleryController::class,'loop']);
+Route::post('/login', [GalleryController::class, 'userLogin']);
 
+Route::prefix('admin')->middleware(['userLogin'])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    });
+
+    Route::get('/add-blog', function () {
+        return view('admin.add-blog');
+    });
+
+
+    Route::post('/add_blog', [BlogsController::class, 'store']);
+    Route::get('/blogs', [BlogsController::class, 'index']);
+    Route::get('/edit-blog/{id}', [BlogsController::class, 'edit']);
+    Route::post('/update-blog', [BlogsController::class, 'update']);
+    Route::get('/blogdelete/{id}', [BlogsController::class, 'delete']);
+    Route::post('uploadImage', [BlogsController::class, 'upload'])->name('upload');
+    Route::get('/gallery', [GalleryController::class, 'index']);
+    Route::post('/gallery', [GalleryController::class, 'store']);
+    Route::get('/gallerydelete/{id}', [GalleryController::class, 'delete']);
+});

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\gallery;
+// use App\Models\User;
+// use Illuminate\Foundation\Auth\RegisterUsers;
+use Illuminate\Support\Facades\Auth;
 
 class GalleryController extends Controller
 {
@@ -33,7 +36,7 @@ class GalleryController extends Controller
 
         
         // return $main;
-        return view('frontend.gallery', ['portfolio' => $portfolio]);
+        return view('frontend.gallery', ['portfolio' => $main]);
     }
 
     public function store(Request $request)
@@ -79,4 +82,40 @@ class GalleryController extends Controller
             'message'=>'error'
         ]);
     }
+
+    public function login()
+    {
+        return view('auth.login');
+    }
+
+    public function userLogin(Request $request){
+
+        $validated = validator::make($request->all(),[
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        if($validated->fails()){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email or Password is required'
+            ]);
+        }
+        if(Auth::attempt($request->only('email','password'))){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Login Successfully'
+            ]);
+        }
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Email and Password do not match'
+        ]);
+        
+    }
+
+    public function logout()
+    {
+        Auth::logout();      
+        return view('auth.login');
+    }   
 }
