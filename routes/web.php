@@ -44,7 +44,7 @@ Route::get('/login',[GalleryController::class,'login'])->name('login')->middlewa
 
 Route::post('/login', [GalleryController::class, 'userLogin']);
 
-Route::prefix('admin')->middleware(['userLogin'])->group(function () {
+Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
